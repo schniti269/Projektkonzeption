@@ -1,0 +1,52 @@
+@startuml
+actor User as U
+participant "Next Framework" as NextFramework
+participant FastAPI as FastAPI
+participant SQLite as SQLite
+participant OpenStackKeystone as OpenStackKeystone
+participant OpenStackGlance as OpenStackGlance
+participant OpenStackSDK as OpenStackSDK
+participant OpenStackNova as OpenStackNova
+participant "New VM Instance" as VMInstance
+
+== Login Process ==
+U -> NextFramework: User Login request
+NextFramework -> FastAPI: Forward login request
+FastAPI -> OpenStackKeystone: OAuth Redirect
+OpenStackKeystone -> FastAPI: OAuth Token + User Info
+FastAPI -> SQLite: Store user info
+SQLite -> FastAPI: User info stored
+FastAPI -> NextFramework: Login Success
+NextFramework -> U: Login Success Notification
+
+== Browsing VM Store ==
+U -> NextFramework: Request to browse VM store
+NextFramework -> FastAPI: Fetch VM data
+FastAPI -> SQLite: Retrieve VM thumbnails & details
+SQLite -> FastAPI: Return VM details
+FastAPI -> NextFramework: VM Data with thumbnails
+NextFramework -> U: Display VMs
+
+== Deploying a VM (with Access Verification) ==
+U -> NextFramework: Deploy VM request
+NextFramework -> FastAPI: Request to deploy VM
+FastAPI -> SQLite: Fetch VM template (verify user access)
+SQLite -> FastAPI: Return template (with access check)
+FastAPI -> OpenStackGlance: Verify image
+OpenStackGlance -> FastAPI: Image verified
+FastAPI -> OpenStackSDK: Pass config and image to Nova for deployment
+OpenStackSDK -> OpenStackNova: Request to Instantiate VM
+== VM Creation ==
+OpenStackNova -> VMInstance: Create
+activate VMInstance
+VMInstance -> OpenStackNova: Status
+OpenStackNova -> OpenStackSDK: VM Instance ID
+
+
+OpenStackSDK -> FastAPI: VM deployed and running
+FastAPI -> NextFramework: Deployment complete
+NextFramework -> U: VM Deployment Success
+
+U -> VMInstance: User logs into instance
+
+@enduml

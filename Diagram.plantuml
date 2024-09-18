@@ -1,0 +1,35 @@
+@startuml
+package "Frontend" {
+  [Next.js] 
+}
+
+package "Middleware" {
+    
+  [Node.js (Next Backend)] <<internal>>
+}
+
+package "Backend" {
+    
+  [FastAPI]<<internal>>
+}
+
+package "Database" {
+  [SQLite] <<internal>>
+}
+
+package "External Systems" {
+  [OpenStack Glance] <<external>>
+  [OpenStack Keystone] <<external>>
+  [OpenStack SDK] <<external>>
+}
+
+
+[Next.js] <--> [Node.js (Next Backend)] : REST API (Passthrough)
+
+[Node.js (Next Backend)] <--> [FastAPI] : REST API (Passthrough)
+[FastAPI] <--> [SQLite] : User Info Storage (SQLAlchemy, File-Mounted)
+[FastAPI] <--> [OpenStack Glance] : Image Storage
+[FastAPI] <--> [OpenStack Keystone] : OAuth 2 Authentication
+[FastAPI] <--> [OpenStack SDK] : VM Deployment
+
+@enduml
