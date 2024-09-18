@@ -9,3 +9,8 @@ https://www.figma.com/design/FAB48gAe87Gza4W1QIMvT2/Untitled?node-id=0-1&t=lvSl4
 
 ## Bewertungskriterien
 https://delors.github.io/allg-vortraege/folien.de.rst.html?ld-slide-no=1
+
+
+# Diagramme
+![Architektur](Diagram.png)
+![Sequence](Sequence.png)
