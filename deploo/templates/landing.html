@@ -2,9 +2,13 @@
 <html>
 <head>
     <title>Landing Page</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
 </head>
 <body>
     <h1>Welcome to Deploo!</h1>
-    <p>This is the landing page.</p>
+    <p>This is the landing page with HTMX support.</p>
+
+    <button hx-get="/load-more/" hx-target="#more-content">Load More</button>
+    <div id="more-content"></div>
 </body>
 </html>

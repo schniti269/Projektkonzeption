@@ -20,4 +20,5 @@ from . import views
 
 urlpatterns = [
     path("", views.landing_page, name="landing_page"),
+    path("load-more/", views.load_more, name="load_more"),
 ]
