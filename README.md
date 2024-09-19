@@ -10,6 +10,8 @@ https://www.figma.com/design/FAB48gAe87Gza4W1QIMvT2/Untitled?node-id=0-1&t=lvSl4
 ## Bewertungskriterien
 https://delors.github.io/allg-vortraege/folien.de.rst.html?ld-slide-no=1
 
+## User STory Schätzing
+https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=160&ct=1726736199&rver=7.5.2205.0&wp=MBI_SSL_SHARED&wreply=https:%2F%2Fonedrive.live.com%2Fredir%3Fcid%3D287b563156d41125%26resid%3D287B563156D41125!s217e1443fcc44139b41d5c3c97cb610a%26ithint%3Dfile%252cxlsx%26e%3D3Kxd9T%26migratedtospo%3Dtrue%26redeem%3DaHR0cHM6Ly8xZHJ2Lm1zL3gvYy8yODdiNTYzMTU2ZDQxMTI1L0VVTVVmaUhFX0RsQnRCMWNQSmZMWVFvQlY5cldoN1l2ek9CaXFRdF9va001eFE_ZT0zS3hkOVQ&lc=1033&id=250206&cbcxt=sky
 
 # Diagramme
 ![Architektur](Diagram.png)
