@@ -41,63 +41,108 @@ box "OpenStack" #LightSalmon
 end box
 
 == Login Process ==
+activate NextFramework
 U -> NextFramework: User Login request
+activate NextFramework
 NextFramework -> FastAPI: Forward login request
+activate FastAPI
 FastAPI -> OpenStackSDK: Request to authenticate
+activate OpenStackSDK
 OpenStackSDK -> OpenStackKeystone: OAuth Redirect
+activate OpenStackKeystone
 OpenStackKeystone -> OpenStackSDK: OAuth Token + User Info
+deactivate OpenStackKeystone
 OpenStackSDK -> FastAPI: User Info
+deactivate OpenStackSDK
+activate FastAPI
 FastAPI -> SQLite: Store user info
-
+activate SQLite
 SQLite -> FastAPI: User info stored
+deactivate SQLite
+deactivate FastAPI
 FastAPI -> NextFramework: Login Success
+deactivate FastAPI
 NextFramework -> U: Login Success Notification
+deactivate NextFramework
 
 == Upload VM Template ==
 U -> NextFramework: Button Upload VM Template
+activate NextFramework
 NextFramework -> FastAPI: POST upload VM
+activate FastAPI
 FastAPI -> SQLite: Store VM template and info
+activate SQLite
 SQLite -> FastAPI: VM template stored
+deactivate SQLite
+activate FastAPI
 FastAPI -> OpenStackSDK: Upload Image
+activate OpenStackSDK
 OpenStackSDK -> OpenStackGlance: Upload Image
+activate OpenStackGlance
 OpenStackGlance -> OpenStackSDK: Image ID
+deactivate OpenStackGlance
 OpenStackSDK -> FastAPI: Image ID
+deactivate OpenStackSDK
 FastAPI -> SQLite: Store Image ID
+deactivate FastAPI
+activate SQLite
 SQLite -> FastAPI: Image ID stored
+deactivate SQLite
 FastAPI -> NextFramework: Upload Success
+deactivate FastAPI
 NextFramework -> U: Upload Success Notification
-
-
-
+deactivate NextFramework
 
 == Browsing VM Store ==
 U -> NextFramework: Request to browse VM store
+activate NextFramework
 NextFramework -> FastAPI: Fetch VM data
+activate FastAPI
 FastAPI -> SQLite: Retrieve VM thumbnails & details
+activate SQLite
 SQLite -> FastAPI: Return VM details
+deactivate SQLite
 FastAPI -> NextFramework: VM Data with thumbnails
+deactivate FastAPI
 NextFramework -> U: Display VMs
+deactivate NextFramework
+
 
 == Deploying a VM (Access Verification) ==
-U -> NextFramework: Deploy VM request
-NextFramework -> FastAPI: Request to deploy VM
-FastAPI -> SQLite: Fetch VM template (verify user access)
-SQLite -> FastAPI: Return template (with access check)
-FastAPI -> OpenStackSDK: Template and other Info
-OpenStackSDK -> OpenStackGlance: Image ID
-OpenStackGlance -> OpenStackSDK: Image
 
+U -> NextFramework: Deploy VM request
+activate NextFramework
+NextFramework -> FastAPI: Request to deploy VM
+activate FastAPI
+FastAPI -> SQLite: Fetch VM template (verify user access)
+activate SQLite
+SQLite -> FastAPI: Return template (with access check)
+deactivate SQLite
+activate FastAPI
+FastAPI -> OpenStackSDK: Template and other Info
+deactivate FastAPI
+activate OpenStackSDK
+OpenStackSDK -> OpenStackGlance: Image ID
+activate OpenStackGlance
+OpenStackGlance -> OpenStackSDK: Image
+deactivate OpenStackGlance
+activate OpenStackSDK
 
 == Deploying a VM (VM Creation) ==
 OpenStackSDK -> OpenStackNova: Image and Parameters
+deactivate OpenStackSDK
+activate OpenStackNova
 OpenStackNova -> VMInstance: Create
 activate VMInstance
 VMInstance -> OpenStackNova: Status
 OpenStackNova -> OpenStackSDK: VM Instance ID
+deactivate OpenStackNova
 OpenStackSDK -> FastAPI: VM deployed and running
+deactivate OpenStackSDK
 FastAPI -> NextFramework: Deployment complete
+deactivate FastAPI
 NextFramework -> U: VM Deployment Success
+deactivate NextFramework
 
 U -> VMInstance: User logs into instance
-
 @enduml
